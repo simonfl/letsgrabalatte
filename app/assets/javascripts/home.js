@@ -11,9 +11,27 @@ function get_location_from_response(response) {
 var geocoding_url_template = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=';
 var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?query=coffee&client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330';
 
+
+function add_to_map(name, location) {
+  new google.maps.Marker({
+    position: new google.maps.LatLng(location.lat, location.lng),
+    map: map,
+    title: name
+  });
+};
+
+function add_explore_result_to_map(index, item) {
+  var venue = item.venue;
+  var name = venue.name;
+  var location = venue.location;
+  add_to_map(name, location);
+};
+
 function explore(your_location, friends_location) {
   var explore_url = explore_url_template + '&ll=' + your_location.lat + ',' + your_location.lng;
-  jQuery.get(explore_url);
+    jQuery.get(explore_url, function(response) {
+	jQuery.each(response.response.groups[0].items, add_explore_result_to_map);
+    });
 };
 
 $(document).ready(initialize);
@@ -31,18 +49,8 @@ function initialize() {
 }
 
 function place_location_markers(you, friend) {
-  var you_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(you.lat, you.lng),
-    map: map,
-    title: 'You'
-  });
-  
-  var friend_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(friend.lat, friend.lng),
-    map: map,
-    title: 'Your friend'
-  });
-  
+  add_to_map('You', you);
+  add_to_map('Your friend', friend);
 }
 
 $("#go").click(function() {
