@@ -54,6 +54,8 @@ function place_location_markers(you, friend) {
 }
 
 $("#go").click(function() {
+  $("#pre-submit").hide();
+  $("#post-submit").show();
   var your_location = $("#addy1").val();
   var friend_location = $("#addy2").val();
 
@@ -77,3 +79,8 @@ $("#addy2").keyup(function(event){
     $("#go").click();
   }
 });
+
+$("#again").click(function(){
+  $("#pre-submit").show();
+  $("#post-submit").hide();
+})
