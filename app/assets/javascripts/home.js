@@ -63,3 +63,9 @@ $("#go").click(function() {
     })
   });
 });
+
+$("#addy2").keyup(function(event){
+  if(event.which == 13) {
+    $("#go").click();
+  }
+});
