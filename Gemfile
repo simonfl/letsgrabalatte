@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
 gem "haml-rails"
+gem 'jquery-rails'
+gem 'newrelic_rpm'
+gem 'rails', '3.2.11'
 gem 'zurb-foundation', '~> 4.0.0'
 
 # Gems used only for assets and not required
@@ -12,8 +14,6 @@ group :assets do
   gem 'execjs'
   gem 'therubyracer'
 end
-
-gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
