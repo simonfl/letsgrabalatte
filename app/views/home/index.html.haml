@@ -1,3 +1,6 @@
+- content_for(:head_js) do
+  = javascript_include_tag("https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ3mRtFEUAUMqlOLgbClNnFV5PUIoTdk4&sensor=false")
+
 .row
   .large-12.columns
     %h1 Let's Grab a Latte
@@ -11,3 +14,7 @@
     = text_field_tag 'addy2', nil, :placeholder => '456 Latte Ave'
   .large-12.columns
     = submit_tag 'Latte Time!'
+
+.row
+  .large-6.columns
+    #map-canvas

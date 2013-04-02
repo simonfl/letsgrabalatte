@@ -19,6 +19,7 @@
 
   = stylesheet_link_tag "application"
   = javascript_include_tag "vendor/custom.modernizr"
+  = yield :head_js
   = csrf_meta_tag
 
 %body
