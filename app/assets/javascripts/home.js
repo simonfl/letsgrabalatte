@@ -34,8 +34,6 @@ function explore(your_location, friends_location) {
     });
 };
 
-$(document).ready(initialize);
-
 function initialize() {
   // TODO: replace center with calculated center
   var mapOptions = {
@@ -56,6 +54,7 @@ function place_location_markers(you, friend) {
 $("#go").click(function() {
   $("#pre-submit").hide();
   $("#post-submit").show();
+  initialize();
   var your_location = $("#addy1").val();
   var friend_location = $("#addy2").val();
 
