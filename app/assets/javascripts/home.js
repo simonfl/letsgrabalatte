@@ -2,6 +2,7 @@
 // All this logic will automatically be available in application.js.
 
 var map;
+var bounds;
 
 function get_location_from_response(response) {
   return response.results[0].geometry.location;
@@ -42,11 +43,14 @@ function middle_point(location1, location2) {
 
 
 function add_to_map(name, location) {
+  var latlng = new google.maps.LatLng(location.lat, location.lng)
   new google.maps.Marker({
-    position: new google.maps.LatLng(location.lat, location.lng),
+    position: latlng,
     map: map,
     title: name
   });
+  bounds.extend(latlng);
+  map.fitBounds(bounds);
 };
 
 function add_explore_result_to_map(index, item) {
@@ -73,8 +77,8 @@ function initialize() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  map = new google.maps.Map(document.getElementById("map-canvas"),
-      mapOptions);
+  bounds = new google.maps.LatLngBounds();
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 }
 
 function place_location_markers(you, friend) {
