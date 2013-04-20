@@ -56,11 +56,19 @@ function add_to_map(name, location, color) {
   map.fitBounds(bounds);
 };
 
+function add_to_list(item) {
+  list_item = '<h5>' + item.venue.name + '</h5>';
+  list_item += item.venue.location.address;
+  list_item += " <span class='small'>(" + item.venue.location.crossStreet + ")</span>";
+  $('#venue-list').append('<li>' + list_item + '</li>');
+};
+
 function add_explore_result_to_map(index, item) {
   var venue = item.venue;
   var name = venue.name;
   var location = venue.location;
   add_to_map(name, location, 'red');
+  add_to_list(item);
 };
 
 function explore(center, your_location, friends_location, type) {
