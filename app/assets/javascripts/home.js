@@ -65,6 +65,7 @@ function explore(center, your_location, friends_location, type) {
   var explore_url = explore_url_template + '&ll=' + center.lat + ',' + center.lng + '&radius=' + radius + '&query=' + type;
 
   jQuery.get(explore_url, function(response) {
+    if (typeof response == 'string') response = $.parseJSON(response);
     jQuery.each(response.response.groups[0].items, add_explore_result_to_map);
   });
 };
@@ -97,8 +98,10 @@ function go(type) {
   var friends_location_req = $.get(geocoding_url_template + friend_location);
 
   your_location_req.done(function(your_response) {
+    if (typeof your_response == "string") your_response = $.parseJSON(your_response);
     your_location = get_location_from_response(your_response);
     friends_location_req.done(function(friends_response){
+      if (typeof friends_response == 'string') friends_response = $.parseJSON(friends_response);
       friends_location = get_location_from_response(friends_response);
       var center = middle_point(your_location, friends_location);
       place_location_markers(your_location, friends_location);
