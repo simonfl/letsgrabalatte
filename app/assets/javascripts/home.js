@@ -48,7 +48,8 @@ function add_to_map(name, location) {
   new google.maps.Marker({
     position: latlng,
     map: map,
-    title: name
+    title: name,
+    animation: google.maps.Animation.DROP
   });
   bounds.extend(latlng);
   map.fitBounds(bounds);
