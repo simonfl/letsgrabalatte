@@ -3,6 +3,7 @@
 
 var map;
 var bounds;
+var max_results = 10;
 
 function get_location_from_response(response) {
   return response.results[0].geometry.location;
@@ -10,7 +11,7 @@ function get_location_from_response(response) {
 
 // TODO(simon): format/sprintf equivalent?
 var geocoding_url_template = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=';
-var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330';
+var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330&limit=' + max_results;
 
 // From http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
 function deg2rad(deg) {
