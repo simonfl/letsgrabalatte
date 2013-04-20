@@ -43,12 +43,14 @@ function middle_point(location1, location2) {
 };
 
 
-function add_to_map(name, location) {
+function add_to_map(name, location, color) {
   var latlng = new google.maps.LatLng(location.lat, location.lng)
+  var icon = "http://www.google.com/intl/en_us/mapfiles/ms/micons/" + color + "-dot.png"
   new google.maps.Marker({
     position: latlng,
     map: map,
-    title: name
+    title: name,
+    icon: icon
   });
   bounds.extend(latlng);
   map.fitBounds(bounds);
@@ -58,7 +60,7 @@ function add_explore_result_to_map(index, item) {
   var venue = item.venue;
   var name = venue.name;
   var location = venue.location;
-  add_to_map(name, location);
+  add_to_map(name, location, 'red');
 };
 
 function explore(center, your_location, friends_location, type) {
@@ -84,8 +86,8 @@ function initialize() {
 }
 
 function place_location_markers(you, friend) {
-  add_to_map('You', you);
-  add_to_map('Your friend', friend);
+  add_to_map('You', you, 'green');
+  add_to_map('Your friend', friend, 'yellow');
 }
 
 function go(type) {
