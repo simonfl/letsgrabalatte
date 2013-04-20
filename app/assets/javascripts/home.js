@@ -91,6 +91,7 @@ function initialize() {
 
   bounds = new google.maps.LatLngBounds();
   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  $('#venue-list').empty();
 }
 
 function place_location_markers(you, friend) {
