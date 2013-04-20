@@ -10,7 +10,7 @@ function get_location_from_response(response) {
 
 // TODO(simon): format/sprintf equivalent?
 var geocoding_url_template = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=';
-var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?query=coffee&client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330';
+var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330';
 
 // From http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
 function deg2rad(deg) {
@@ -60,9 +60,9 @@ function add_explore_result_to_map(index, item) {
   add_to_map(name, location);
 };
 
-function explore(center, your_location, friends_location) {
+function explore(center, your_location, friends_location, type) {
   var radius = suggested_radius(your_location, friends_location);
-  var explore_url = explore_url_template + '&ll=' + center.lat + ',' + center.lng + '&radius=' + radius;
+  var explore_url = explore_url_template + '&ll=' + center.lat + ',' + center.lng + '&radius=' + radius + '&query=' + type;
 
   jQuery.get(explore_url, function(response) {
     jQuery.each(response.response.groups[0].items, add_explore_result_to_map);
@@ -86,7 +86,7 @@ function place_location_markers(you, friend) {
   add_to_map('Your friend', friend);
 }
 
-$("#go").click(function() {
+function go(type) {
   $("#pre-submit").hide();
   $("#post-submit").show();
   initialize();
@@ -102,10 +102,20 @@ $("#go").click(function() {
       friends_location = get_location_from_response(friends_response);
       var center = middle_point(your_location, friends_location);
       place_location_markers(your_location, friends_location);
-      explore(center, your_location, friends_location);
+      explore(center, your_location, friends_location, type);
     })
   });
+
+}
+
+$("#gocoffee").click(function() {
+  go("coffee");
 });
+
+$("#gobeer").click(function() {
+  go("drinks");
+});
+
 
 $("#addy2").keyup(function(event){
   if(event.which == 13) {
