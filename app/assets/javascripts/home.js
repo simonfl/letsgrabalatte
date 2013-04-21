@@ -88,7 +88,6 @@ function explore(center, your_location, friends_location, type) {
 };
 
 function initialize() {
-  // TODO: replace center with calculated center
   var mapOptions = {
     center: new google.maps.LatLng(37.777499,-122.418594),
     zoom: 12,
@@ -96,8 +95,10 @@ function initialize() {
   };
 
   bounds = new google.maps.LatLngBounds();
-  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions); 
+  
   $('#venue-list').empty();
+  $('#messages').text('');
 }
 
 function place_location_markers(you, friend) {
