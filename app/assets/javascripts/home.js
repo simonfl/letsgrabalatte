@@ -75,9 +75,15 @@ function explore(center, your_location, friends_location, type) {
   var radius = suggested_radius(your_location, friends_location);
   var explore_url = explore_url_template + '&ll=' + center.lat + ',' + center.lng + '&radius=' + radius + '&query=' + type;
 
-  jQuery.get(explore_url, function(response) {
-    if (typeof response == 'string') response = $.parseJSON(response);
+  var jqxhr = $.getJSON(explore_url, function(response) {
+    if(response.response.warning) {
+      $('#messages').text(response.response.warning.text);
+    }
     jQuery.each(response.response.groups[0].items, add_explore_result_to_map);
+  })
+  .fail(function(response) {
+    if (typeof response.responseText == 'string') error_response = $.parseJSON(response.responseText);
+    $('#messages').text(error_response.meta.errorDetail);
   });
 };
 
@@ -106,14 +112,12 @@ function go(type) {
   var your_location = $("#addy1").val();
   var friend_location = $("#addy2").val();
 
-  var your_location_req = $.get(geocoding_url_template + your_location);
-  var friends_location_req = $.get(geocoding_url_template + friend_location);
+  var your_location_req = $.getJSON(geocoding_url_template + your_location);
+  var friends_location_req = $.getJSON(geocoding_url_template + friend_location);
 
   your_location_req.done(function(your_response) {
-    if (typeof your_response == "string") your_response = $.parseJSON(your_response);
     your_location = get_location_from_response(your_response);
     friends_location_req.done(function(friends_response){
-      if (typeof friends_response == 'string') friends_response = $.parseJSON(friends_response);
       friends_location = get_location_from_response(friends_response);
       var center = middle_point(your_location, friends_location);
       place_location_markers(your_location, friends_location);
