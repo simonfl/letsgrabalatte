@@ -43,15 +43,27 @@ function middle_point(location1, location2) {
 };
 
 
-function add_to_map(name, location, color) {
+function add_to_map(name, location, icon_url, venue_id) {
   var latlng = new google.maps.LatLng(location.lat, location.lng)
-  var icon = "http://www.google.com/intl/en_us/mapfiles/ms/micons/" + color + "-dot.png"
-  new google.maps.Marker({
+  var marker = new google.maps.Marker({
     position: latlng,
     map: map,
     title: name,
-    icon: icon
+    icon: icon_url
   });
+  
+  if (venue_id) {
+    marker.setShadow('/assets/icon_background_32.png');
+    google.maps.event.addListener(marker, 'mouseover', function () {
+      this.setOptions({zIndex:10});
+      $('#' + venue_id).addClass('highlight');
+    });
+    google.maps.event.addListener(marker, 'mouseout', function () {
+      this.setOptions({zIndex:1});
+      $('#' + venue_id).removeClass('highlight');
+    });
+  }
+  
   bounds.extend(latlng);
   map.fitBounds(bounds);
 };
@@ -60,14 +72,15 @@ function add_to_list(item) {
   list_item = '<h5>' + item.venue.name + '</h5>';
   list_item += item.venue.location.address;
   list_item += " <span class='small'>(" + item.venue.location.crossStreet + ")</span>";
-  $('#venue-list').append('<li>' + list_item + '</li>');
+  $('#venue-list').append('<li id="' + item.venue.id + '">' + list_item + '</li>');
 };
 
 function add_explore_result_to_map(index, item) {
   var venue = item.venue;
   var name = venue.name;
   var location = venue.location;
-  add_to_map(name, location, 'red');
+  var icon_url = venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix
+  add_to_map(name, location, icon_url, venue.id);
   add_to_list(item);
 };
 
@@ -102,8 +115,8 @@ function initialize() {
 }
 
 function place_location_markers(you, friend) {
-  add_to_map('You', you, 'green');
-  add_to_map('Your friend', friend, 'yellow');
+  add_to_map('You', you, 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png');
+  add_to_map('Your friend', friend, 'http://www.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png');
 }
 
 function go(type) {
