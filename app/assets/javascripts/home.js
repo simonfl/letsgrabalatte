@@ -4,6 +4,8 @@
 var map;
 var bounds;
 var max_results = 10;
+var markers = [];
+var cur_icon;
 
 function get_location_from_response(response) {
   return response.results[0].geometry.location;
@@ -49,17 +51,19 @@ function add_to_map(name, location, icon_url, venue_id) {
     position: latlng,
     map: map,
     title: name,
-    icon: icon_url
+    icon: icon_url,
+    zIndex: 1
   });
   
   if (venue_id) {
-    marker.setShadow('/assets/icon_background_32.png');
+    markers.push(marker);
     google.maps.event.addListener(marker, 'mouseover', function () {
-      this.setOptions({zIndex:10});
+      cur_icon = this.getIcon();
+      this.setOptions({zIndex:10, icon:'/assets/icon_star_32.png'});
       $('#' + venue_id).addClass('highlight');
     });
     google.maps.event.addListener(marker, 'mouseout', function () {
-      this.setOptions({zIndex:1});
+      this.setOptions({zIndex:1, icon:cur_icon});
       $('#' + venue_id).removeClass('highlight');
     });
   }
@@ -79,7 +83,7 @@ function add_explore_result_to_map(index, item) {
   var venue = item.venue;
   var name = venue.name;
   var location = venue.location;
-  var icon_url = venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix
+  var icon_url = venue.categories[0].icon.prefix + 'bg_32' + venue.categories[0].icon.suffix
   add_to_map(name, location, icon_url, venue.id);
   add_to_list(item);
 };
@@ -140,6 +144,18 @@ function go(type) {
   });
 
 }
+
+$(document).on('mouseenter', 'li', function() {
+  var index = $('li').index($(this));
+  cur_icon = markers[index].getIcon();
+  markers[index].setZIndex(10);
+  markers[index].setIcon('/assets/icon_star_32.png');
+});
+$(document).on('mouseleave', 'li', function() {
+  var index = $('li').index($(this));
+  markers[index].setZIndex(1);
+  markers[index].setIcon(cur_icon);
+});
 
 $("#gocoffee").click(function() {
   go("coffee");
