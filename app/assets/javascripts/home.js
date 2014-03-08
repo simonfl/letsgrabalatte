@@ -73,9 +73,11 @@ function add_to_map(name, location, icon_url, venue_id) {
 };
 
 function add_to_list(item) {
-  list_item = '<h5><a href="https://foursquare.com/v/' + item.venue.id + '" target="new">' + item.venue.name + '</a></h5>';
+  var venue_url = "https://foursquare.com/v/" + item.venue.id;
+  list_item = '<h5><a href="' + venue_url + '" target="new">' + item.venue.name + '</a></h5>';
   list_item += item.venue.location.address;
   list_item += " <span class='small'>(" + item.venue.location.crossStreet + ")</span>";
+  list_item += " <a href=\"sms:?body=Let's meet here! " + venue_url + "\"><img src=\"/assets/sms_icon.png\" height=16 width=16/></a> ";
   $('#venue-list').append('<li id="' + item.venue.id + '">' + list_item + '</li>');
 };
 
