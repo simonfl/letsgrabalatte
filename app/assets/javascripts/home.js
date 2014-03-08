@@ -73,7 +73,7 @@ function add_to_map(name, location, icon_url, venue_id) {
 };
 
 function add_to_list(item) {
-  list_item = '<h5>' + item.venue.name + '</h5>';
+  list_item = '<h5><a href="https://foursquare.com/v/' + item.venue.id + '" target="new">' + item.venue.name + '</a></h5>';
   list_item += item.venue.location.address;
   list_item += " <span class='small'>(" + item.venue.location.crossStreet + ")</span>";
   $('#venue-list').append('<li id="' + item.venue.id + '">' + list_item + '</li>');
