@@ -1,4 +1,9 @@
-# This file is used by Rack-based servers to start the application.
+require 'sinatra'
+require 'haml'
+require 'sass/plugin/rack'
+require './latte'
 
-require ::File.expand_path('../config/environment',  __FILE__)
-run Letsgrabalatte::Application
+Sass::Plugin.options[:style] = :compressed
+use Sass::Plugin::Rack
+
+run Sinatra::Application

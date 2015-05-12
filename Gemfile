@@ -1,31 +1,5 @@
 source 'https://rubygems.org'
-
-gem "haml-rails"
-gem 'jquery-rails'
-gem 'newrelic_rpm'
-gem 'rails', '3.2.11'
-gem 'zurb-foundation', '~> 4.0.0'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'execjs'
-  gem 'therubyracer'
-end
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
+ruby "2.2.2"
+gem 'sinatra'
+gem 'haml', '3.1.7'
+gem 'sass', '3.2.1'

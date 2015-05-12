@@ -1,0 +1,42 @@
+!!! 5
+/ paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+/[if lt IE 7 ] <html class=\"ie6\" lang=\"en\">
+/[if IE 7 ]    <html class=\"ie7\" lang=\"en\">
+/[if IE 8 ]    <html class=\"ie8\" lang=\"en\">
+/[if IE 9 ]    <html class=\"ie9\" lang=\"en\">
+/[if (gt IE 9)|!(IE)] <!--> <html lang=\"en\">
+
+%head
+  %meta{ :charset => "utf-8" }
+
+  -# Uncomment to make IE8 render like IE7
+  -# meta http-equiv="X-UA-Compatible" content="IE=7"
+
+  -# Set the viewport width to device width for mobile
+  %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
+
+  %title Let's Grab a Latte
+
+  %link{:rel => "stylesheet", :href => "vendor/bootstrap/css/bootstrap.min.css"}
+  %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/home.css'}
+
+  %script{:type => "text/javascript", :src  => "vendor/jquery-2.1.4.min.js"}
+  %script{:type => "text/javascript", :src  => "vendor/bootstrap/js/bootstrap.min.js"}
+  %script{:type => "text/javascript", :src => 'scripts/home.js'}
+  / %script{:type => "text/javascript", :src  => "vendor/custom.modernizr"}
+  :javascript
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39789834-1']);
+    _gaq.push(['_setDomainName', 'letsgrabalatte.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  %script{:type => "text/javascript", :src => 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ3mRtFEUAUMqlOLgbClNnFV5PUIoTdk4&sensor=false'}
+
+%body
+  = yield
+
