@@ -16,6 +16,29 @@ function get_location_from_response(response) {
 var geocoding_url_template = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=';
 var explore_url_template = 'https://api.foursquare.com/v2/venues/explore?client_id=XOBCADAGYQQDQMRZGQVX5Y4DF3CVCATJUIJEGB5UXQ2PESZZ&client_secret=4GZ31YY4KRJZXMW0O0DSHNAEY4MH0GJNKA0PUEXC4BACO3LQ&v=20130330&limit=' + max_results;
 
+function updateURI(location1, location2) {
+  var parameters = {
+    'location1': location1,
+    'location2': location2
+  };
+  location.hash = 'location1=' + encodeURIComponent(location1) + "&location2=" + encodeURIComponent(location2);
+}
+
+function parseURI() {
+    var hash = location.hash;
+    var parameters = {};
+    if (hash) {
+        var split_hash = hash.substring(1, hash.length).split('&');
+        jQuery.each(split_hash, function (index, item) {
+            var split_item = item.split('=');
+	    var key = decodeURIComponent(split_item[0]);
+	    var value = decodeURIComponent(split_item[1]);
+	    parameters[key] = value;
+	});
+    }
+    return parameters;
+}
+
 // From http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
 function deg2rad(deg) {
   return deg * (Math.PI/180);
@@ -91,8 +114,8 @@ function add_explore_result_to_map(index, item) {
   add_to_list(item);
 }
 
-function explore(center, your_location, friends_location, type) {
-  var radius = suggested_radius(your_location, friends_location);
+function explore(center, location1, location2, type) {
+  var radius = suggested_radius(location1, location2);
   var explore_url = explore_url_template + '&ll=' + center.lat + ',' + center.lng + '&radius=' + radius + '&query=' + type;
 
   var jqxhr = $.getJSON(explore_url, function(response) {
@@ -130,19 +153,21 @@ function go(type) {
   $("#pre-submit").hide();
   $("#post-submit").show();
   initialize();
-  var your_location = $("#addy1").val();
-  var friend_location = $("#addy2").val();
 
-  var your_location_req = $.getJSON(geocoding_url_template + your_location);
-  var friends_location_req = $.getJSON(geocoding_url_template + friend_location);
+  var locationstr1 = $("#addy1").val();
+  var locationstr2 = $("#addy2").val();
+  updateURI(locationstr1, locationstr2);
+  
+  var location1_req = $.getJSON(geocoding_url_template + locationstr1);
+  var location2_req = $.getJSON(geocoding_url_template + locationstr2);
 
-  your_location_req.done(function(your_response) {
-    your_location = get_location_from_response(your_response);
-    friends_location_req.done(function(friends_response){
-      friends_location = get_location_from_response(friends_response);
-      var center = middle_point(your_location, friends_location);
-      place_location_markers(your_location, friends_location);
-      explore(center, your_location, friends_location, type);
+  location1_req.done(function(your_response) {
+    var location1 = get_location_from_response(your_response);
+    location2_req.done(function(friends_response){
+      var location2 = get_location_from_response(friends_response);
+      var center = middle_point(location1, location2);
+      place_location_markers(location1, location2);
+      explore(center, location1, location2, type);
     });
   });
 
@@ -180,4 +205,15 @@ $("#again").click(function(){
   $("#pre-submit").show();
   $("#post-submit").hide();
 });
+
+var params = parseURI();
+var location1 = params['location1'];
+if (location1) {
+  $("#addy1").val(location1);
+}
+var location2 = params['location2'];
+if (location2) {
+  $("#addy2").val(location2);
+}
+
 });
