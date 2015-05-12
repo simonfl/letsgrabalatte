@@ -6,16 +6,16 @@
   #pre-submit
     .row
       .col-md-12
-        %label 'Where you are'
-        / = text_field_tag 'addy1', nil, :placeholder => '123 Eureka Dr'
-        %input{:id => 'addy1', :name => 'addy1', :placeholder => '363 Clementina San Francisco'}
-      .col-md-12
-        %label 'Where your friend is'
-        / = text_field_tag 'addy2', nil, :placeholder => '456 Latte Ave'
-        %input{:id => 'addy2', :name => 'addy2', :placeholder => '140 2nd St. San Francisco'}
-      .col-md-12
-        %button#gocoffee Latte Time!
-        %button#gobeer Beer Time!
+        %form
+          .form-group
+            %label{:for => 'addy1'} Where you are
+            %input.form-control{:id => 'addy1', :name => 'addy1', :placeholder => '363 Clementina San Francisco'}
+          .form-group
+            %label{:for => 'addy2'} Where your friend is
+            %input.form-control{:id => 'addy2', :name => 'addy2', :placeholder => '140 2nd St. San Francisco'}
+          .form-group
+            %button#gocoffee{:class => 'btn .btn-lg'} Latte Time!
+            %button#gobeer{:class => 'btn .btn-lg'} Beer Time!
 
   #post-submit
     .row

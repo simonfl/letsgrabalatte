@@ -28,13 +28,13 @@ function parseURI() {
     var hash = location.hash;
     var parameters = {};
     if (hash) {
-        var split_hash = hash.substring(1, hash.length).split('&');
-        jQuery.each(split_hash, function (index, item) {
-            var split_item = item.split('=');
-	    var key = decodeURIComponent(split_item[0]);
-	    var value = decodeURIComponent(split_item[1]);
-	    parameters[key] = value;
-	});
+      var split_hash = hash.substring(1, hash.length).split('&');
+      jQuery.each(split_hash, function (index, item) {
+          var split_item = item.split('=');
+           var key = decodeURIComponent(split_item[0]);
+           var value = decodeURIComponent(split_item[1]);
+           parameters[key] = value;
+      });
     }
     return parameters;
 }
@@ -186,7 +186,6 @@ $(document).on('mouseleave', 'li', function() {
 });
 
 $("#gocoffee").click(function() {
-  console.log("coffee");
   go("coffee");
 });
 
